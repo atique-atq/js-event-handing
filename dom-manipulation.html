@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dom Manipulation</title>
+    <style>
+        .fade-out {
+            transition: opacity 1s;
+            opacity: 0;
+            ;
+        }
+    </style>
+</head>
+
+<body>
+    <p id="p-text-id">This will be changed by DOM Manipulation</p>
+
+    <button onclick="updateParagraphText()">Update by Onclick Function</button>
+    <button id="text-update-button">Update by EventhHandler</button>
+
+
+    <hr>
+
+    <div id="paragraph-container">
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt non architecto odio itaque sunt! Ipsa
+            similique magni tempora suscipit veniam.</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt non architecto odio itaque sunt! Ipsa
+            similique magni tempora suscipit veniam.</p>
+
+    </div>
+    <textarea id="paragraph-input-field" name="" cols="60" rows="5"></textarea>
+    <br>
+    <button id="add-paragraph-button">Add Paragraph</button>
+    <br>
+    <br>
+    <button id="delete-paragraph-button">Delete Paragraph</button>
+</body>
+
+<script>
+    function updateParagraphText() {
+        let paragraph = document.getElementById("p-text-id");
+        paragraph.innerText = "Updated by onclick functoin";
+        paragraph.style.fontSize = "40px";
+        paragraph.style.fontWeight = "700";
+        paragraph.style.color = "blue";
+    }
+
+    //updated by event handler catching by id
+    document.getElementById("text-update-button").addEventListener('click', function () {
+        let paragraph = document.getElementById("p-text-id");
+        paragraph.innerText = "Updated by addEventListener";
+        paragraph.style.color = "green";
+    });
+
+    //paragraph adding
+    document.getElementById("add-paragraph-button").addEventListener('click', function () {
+        let newParagraphText = document.getElementById("paragraph-input-field").value;
+        let pTag = document.createElement('p');
+        pTag.innerHTML = newParagraphText;
+        document.getElementById("paragraph-container").appendChild(pTag);
+        document.getElementById("paragraph-input-field").value = '';
+    })
+
+
+    //delete paragraph
+    document.getElementById('delete-paragraph-button').addEventListener('click', function () {
+        let container = document.getElementById("paragraph-container");
+        let paragraphs = container.getElementsByTagName('p');
+        if (paragraphs.length === 0) {
+            alert("no element to delete!!!");
+        }
+        else {
+            let lastParagraph = paragraphs[paragraphs.length - 1];
+            lastParagraph.classList.add("fade-out");
+            setTimeout(function () {
+                container.removeChild(lastParagraph);
+            }, 1000)
+        }
+    })
+</script>
+
+</html>
